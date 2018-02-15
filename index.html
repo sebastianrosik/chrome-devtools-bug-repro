@@ -1,0 +1,43 @@
+<html>
+    <p><button id="example0">Send post</button> with no Cache-Control header in response</p>
+    <p><button id="example1">Send post</button> with Cache-Control header in response</p>
+    <p><button id="example2">Send post</button> with Cache-Control header in response. Calling response.text()</p>
+    <p><button id="example3">Send post</button> with Cache-Control header in response. After timeout of 5s calling response.text()</p>
+    <p>(Open google chrome devtools to see the issue)</p>
+
+    <script>
+        document.getElementById('example0').addEventListener('click', event => {
+            event.preventDefault();
+            fetch('/test', {
+                method: 'POST',
+            });
+        });
+
+        document.getElementById('example1').addEventListener('click', event => {
+            event.preventDefault();
+            fetch('/test/cache-control', {
+                method: 'POST'
+            });
+        });
+
+        document.getElementById('example2').addEventListener('click', event => {
+            event.preventDefault();
+            fetch('/test/cache-control', {
+                method: 'POST'
+            })
+            .then(response => response.text());
+        });
+
+        document.getElementById('example3').addEventListener('click', event => {
+            event.preventDefault();
+            fetch('/test/cache-control', {
+                method: 'POST'
+            })
+            .then(response => {
+                setTimeout(() => {
+                    response.text();
+                }, 5000);
+            });
+        });
+    </script>
+</html>
